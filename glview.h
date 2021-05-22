@@ -38,6 +38,7 @@ private:
       float x,y,z;
   };
   std::vector<coord> vertex_vec;
+  std::vector<int> vertex_ind;
 private:
   QTimer mpTimer;
 

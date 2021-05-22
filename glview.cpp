@@ -166,6 +166,27 @@ void glView::paintGL()
     glMatrixMode(GL_MODELVIEW);
     glLoadIdentity();
 
+    glBegin(GL_TRIANGLES);
+        glColor3f(0.7,0.7,0.7);
+//        for (int i=0; i< vertex_vec.size(); i++) {
+//            coord tmp = vertex_vec.at(i);
+//            glVertex3f(tmp.x/10,tmp.y/10,tmp.z/10);
+//        }
+
+        for (int i=0; i< vertex_ind.size(); i++) {
+            int num_pnt = vertex_ind.at(i) - 1;
+            GLfloat x = vertex_vec.at(num_pnt).x;
+            GLfloat y = vertex_vec.at(num_pnt).y;
+            GLfloat z = vertex_vec.at(num_pnt).z;
+
+            glVertex3f(x/10,y/10,z/10);
+
+            //glNormal3f()
+        }
+
+
+    glEnd();
+
 //    glEnable(GL_DEPTH_TEST);
 
 //    const qreal retinaScale = devicePixelRatio();
@@ -324,7 +345,7 @@ void glView::paintGL()
 
 void glView::init_fdata()
 {
-    std::ifstream ifile("C:\\Mila_curs\\Mila_curs\\VictorLamps.obj");
+    std::ifstream ifile("C:\\Mila_curs\\Mila_curs\\model.obj");
     while(ifile.good()){
         fdata.push_back(ifile.get());
     }
@@ -355,79 +376,146 @@ void glView::init_vertex()
 void glView::parse_line(const std::string &line)
 {
     coord curr_c;
-//    float x,y,z;
 
-    for (int i=0; i<line.size(); i++) {
-        if(line.at(0)=='v' && line.at(1)==' '){
-            i+=2;
-            char crd[10];
+    if(line.at(0)=='v' && line.at(1)==' '){
+        QStringList list = QString::fromStdString(line).split(" ");
+        curr_c.x =  list.at(1).toFloat();
+        curr_c.y =  list.at(2).toFloat();
+        curr_c.z =  list.at(3).toFloat();
+        vertex_vec.push_back(curr_c);
+        return;
+    } else if (line.at(0)=='f' && line.at(1)==' '){
+        QStringList list = QString::fromStdString(line).split(" ");
 
-            for (int _i=0; _i<10; _i++) {
-                crd[_i]=0;
-            }
+        QStringList list_1 = list[1].split("/");
+        //qDebug() << list_1[0];
+        vertex_ind.push_back(list_1[0].toFloat());
 
-            for (int j=0; j<10; j++, i++) {
+        QStringList list_2 = list[2].split("/");
+        //qDebug() << list_2[0];
+        vertex_ind.push_back(list_2[0].toFloat());
 
-                if(line.at(i)=='.'){
-                    crd[j]=',';
-                    continue;
-                }
+        QStringList list_3 = list[3].split("/");
+        //qDebug() << list_3[0];
+        vertex_ind.push_back(list_3[0].toFloat());
 
-                crd[j]=line.at(i);
-                if(line.at(i)==' '){
-                    i++;
-                    curr_c.x = atof(crd);
-                    for (int _i=0; _i<10; _i++){
-                        crd[_i]=0;
-                    }
-                    break;
-                }
-            }
+//        for (int i=0; i< list. ; ) {
 
-            for (int j=0; j<10; j++, i++) {
-
-                if(line.at(i)=='.'){
-                    crd[j]=',';
-                    continue;
-                }
-
-                crd[j]=line.at(i);
-                if(line.at(i)==' '){
-                    i++;
-                    curr_c.y = atof(crd);
-                    for (int _i=0; _i<10; _i++){
-                        crd[_i]=0;
-                    }
-                    break;
-                }
-            }
-
-            for (int j=0; j<10; j++, i++) {
-
-                if(line.at(i)=='.'){
-                    crd[j]=',';
-                    continue;
-                }
-
-                crd[j]=line.at(i);
-                if(line.at(i)==' ' || line.at(i)=='\n'){
-                    curr_c.z = atof(crd);
-                    break;
-                }
-            }
-            vertex_vec.push_back(curr_c);
-            return;
-
-
-        }
+//        }
     }
+
+
+//    else {
+//        for (int i=0; i<line.size(); i++) {
+//            if(line.at(0)=='f' && line.at(1)==' '){
+//                i+=1;
+//                while(line.at(i) != '\n'){
+//                    i++;
+//                    char crd[5];
+//                    for (int _i=0; _i<5 ; _i++) {
+//                        crd[_i]=0;
+//                    }
+
+//                    for (int j=0; j<5; j++, i++) {
+//                        crd[j] = line.at(i);
+//                        i++;
+//                        if(line.at(i) == ' ' || line.at(i) == '\n'){
+//                            break;
+//                        }
+//                        if(line.at(i)=='/'){
+//                            vertex_ind.push_back(atoi(crd));
+//                            while (true) {
+//                                i++;
+//                                if(line.at(i)!=' ')
+//                                    break;
+//                                if(line.at(i)!='\n')
+//                                    break;
+//                            }
+//                        }
+//                    }
+
+//                }
+//            }
+//        }
+//    }
+
+//    for (int i=0; i<line.size(); i++) {
+//        if(line.at(0)=='v' && line.at(1)==' '){
+//            i+=2;
+//            char crd[10];
+
+//            for (int _i=0; _i<10; _i++) {
+//                crd[_i]=0;
+//            }
+
+//            for (int j=0; j<10; j++, i++) {
+
+//                if(line.at(i)=='.'){
+//                    crd[j]=',';
+//                    continue;
+//                }
+
+//                crd[j]=line.at(i);
+//                if(line.at(i)==' '){
+//                    i++;
+//                    curr_c.x = double(atof(crd));
+//                    qDebug()<< curr_c.x << "\n";
+//                    for (int _i=0; _i<10; _i++){
+//                        crd[_i]=0;
+//                    }
+//                    break;
+//                }
+//            }
+
+//            for (int j=0; j<10; j++, i++) {
+
+//                if(line.at(i)=='.'){
+//                    crd[j]=',';
+//                    continue;
+//                }
+
+//                crd[j]=line.at(i);
+//                if(line.at(i)==' '){
+//                    i++;
+//                    curr_c.y = atof(crd);
+//                    for (int _i=0; _i<10; _i++){
+//                        crd[_i]=0;
+//                    }
+//                    break;
+//                }
+//            }
+
+//            for (int j=0; j<10; j++, i++) {
+
+//                if(line.at(i)=='.'){
+//                    crd[j]=',';
+//                    continue;
+//                }
+
+//                crd[j]=line.at(i);
+//                if(line.at(i)==' ' || line.at(i)=='\n'){
+//                    curr_c.z = atof(crd);
+//                    break;
+//                }
+//            }
+//            vertex_vec.push_back(curr_c);
+//            return;
+
+
+//        }
+//    }
 }
 
 void glView::chk_vertex_vec()
 {
-    for (int i=0; i<vertex_vec.size(); i++) {
-        qDebug() << "X = " << vertex_vec.at(i).x << ", Y = " << vertex_vec.at(i).y << ", Z = " << vertex_vec.at(i).z;
-    }
+//    for (int i=0; i<vertex_vec.size(); i++) {
+//        qDebug() << "X = " << float(vertex_vec.at(i).x) << ", Y = " << vertex_vec.at(i).y << ", Z = " << vertex_vec.at(i).z;
+//    }
+
+//    foreach (int num, vertex_ind){
+//        qDebug() << num;
+//    }
+
 }
 
 
