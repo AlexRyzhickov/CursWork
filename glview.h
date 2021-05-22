@@ -12,6 +12,7 @@
 #include <material.h>
 #include <string>
 #include <vector>
+#include <QMouseEvent>
 
 
 QT_BEGIN_NAMESPACE
@@ -27,11 +28,17 @@ public:
   void initializeGL() override;
   void resizeGL(int w, int h)override;
   void paintGL()override;
+  void mousePressEvent(QMouseEvent*);
+  void mouseMoveEvent(QMouseEvent*);
+
 private:
   void init_fdata();
   void init_vertex();
   void parse_line(const std::string &line);
   void chk_vertex_vec();
+
+  GLfloat x_pos = 0, y_pos = 0;
+  GLfloat angle_x = 0, angle_y = 0;
 
   std::string fdata;
   struct coord{
@@ -39,6 +46,8 @@ private:
   };
   std::vector<coord> vertex_vec;
   std::vector<int> vertex_ind;
+  std::vector<coord> nlight_vec;
+  std::vector<int> nlight_ind;
 private:
   QTimer mpTimer;
 
@@ -85,7 +94,7 @@ public:
   QColor *color = nullptr;
   Material *material = nullptr;
   QVector3D *light_position = nullptr;
-public slots:
+public slots:  
 
 };
 

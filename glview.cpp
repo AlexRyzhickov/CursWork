@@ -110,6 +110,9 @@ void glView::initializeGL()
     initializeOpenGLFunctions();
     glClearColor(0,0,0,0);
     glEnable(GL_DEPTH_TEST);
+    glEnable(GL_LIGHTING);
+    glEnable(GL_NORMALIZE);
+    glEnable(GL_LIGHT0);
 
 //    material = new Material();
 //    light_position = new QVector3D(0.8f,0.8f,0.8f);
@@ -154,7 +157,7 @@ void glView::resizeGL(int w, int h)
     glMatrixMode(GL_PROJECTION);
     glLoadIdentity();
     glViewport(0, 0, w, h);
-    glOrtho(-5,5,-5,5,-5,5);
+    glOrtho(-30,30,-30,30,-30,30);
 
   //mScaleFactorX = 800 / (float)w;
   //mScaleFactorY = 600 / (float)h;
@@ -166,6 +169,8 @@ void glView::paintGL()
     glMatrixMode(GL_MODELVIEW);
     glLoadIdentity();
 
+    glRotatef(angle_x,1,0,0);
+    glRotatef(angle_y,0,1,0);
     glBegin(GL_TRIANGLES);
         glColor3f(0.7,0.7,0.7);
 //        for (int i=0; i< vertex_vec.size(); i++) {
@@ -174,15 +179,30 @@ void glView::paintGL()
 //        }
 
         for (int i=0; i< vertex_ind.size(); i++) {
+
+            int num_pnt2 = nlight_ind.at(i) - 1;
+
+            GLfloat x2 = nlight_vec.at(num_pnt2).x;
+            GLfloat y2 = nlight_vec.at(num_pnt2).y;
+            GLfloat z2 = nlight_vec.at(num_pnt2).z;
+
+            glNormal3f(x2/2,y2/2,z2/2);
+
             int num_pnt = vertex_ind.at(i) - 1;
             GLfloat x = vertex_vec.at(num_pnt).x;
             GLfloat y = vertex_vec.at(num_pnt).y;
             GLfloat z = vertex_vec.at(num_pnt).z;
 
-            glVertex3f(x/10,y/10,z/10);
-
-            //glNormal3f()
+            glVertex3f(x/2,y/2,z/2);
         }
+
+        for (int i=0; i< nlight_ind.size(); i++) {
+
+        }
+
+//        glNormal3f(nlight_vec.at(num_pnt).x,
+//                   nlight_vec.at(num_pnt).y,
+//                   nlight_vec.at(num_pnt).z);
 
 
     glEnd();
@@ -343,6 +363,23 @@ void glView::paintGL()
 
 }
 
+void glView::mousePressEvent(QMouseEvent *e)
+{
+    if(e->button()==Qt::LeftButton){
+        x_pos = e->x();
+        y_pos = e->y();
+    }
+}
+
+void glView::mouseMoveEvent(QMouseEvent *e)
+{
+    angle_x = 180 * (GLfloat(e->y()) - y_pos) / width();
+    angle_y = 180 * (GLfloat(e->x()) - x_pos) / height();
+    updateGL();
+    //y_pos = e->y();
+    //x_pos = e->x();
+}
+
 void glView::init_fdata()
 {
     std::ifstream ifile("C:\\Mila_curs\\Mila_curs\\model.obj");
@@ -388,20 +425,23 @@ void glView::parse_line(const std::string &line)
         QStringList list = QString::fromStdString(line).split(" ");
 
         QStringList list_1 = list[1].split("/");
-        //qDebug() << list_1[0];
         vertex_ind.push_back(list_1[0].toFloat());
+        nlight_ind.push_back(list_1[2].toFloat());
 
-        QStringList list_2 = list[2].split("/");
-        //qDebug() << list_2[0];
+        QStringList list_2 = list[2].split("/");   
         vertex_ind.push_back(list_2[0].toFloat());
+        nlight_ind.push_back(list_2[2].toFloat());
 
         QStringList list_3 = list[3].split("/");
-        //qDebug() << list_3[0];
         vertex_ind.push_back(list_3[0].toFloat());
+        nlight_ind.push_back(list_3[2].toFloat());
 
-//        for (int i=0; i< list. ; ) {
-
-//        }
+    } else if (line.at(0)=='v' && line.at(1)=='n'){
+        QStringList list = QString::fromStdString(line).split(" ");
+        curr_c.x =  list.at(1).toFloat();
+        curr_c.y =  list.at(2).toFloat();
+        curr_c.z =  list.at(3).toFloat();
+        nlight_vec.push_back(curr_c);
     }
 
 
@@ -515,6 +555,14 @@ void glView::chk_vertex_vec()
 //    foreach (int num, vertex_ind){
 //        qDebug() << num;
 //    }
+
+//        foreach (int num, nlight_ind){
+//            qDebug() << num;
+//        }
+
+//        for (int i=0; i< nlight_vec.size(); i++) {
+//            qDebug() << "X = " << float(nlight_vec.at(i).x) << ", Y = " << nlight_vec.at(i).y << ", Z = " << nlight_vec.at(i).z;
+//        }
 
 }
 
