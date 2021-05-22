@@ -36,7 +36,6 @@ private:
   void init_fdata();
   void init_vertex();
   void parse_line(const std::string &line);
-  void chk_vertex_vec();
 
   GLfloat x_pos = 0, y_pos = 0;
   GLfloat angle_x = 0, angle_y = 0;

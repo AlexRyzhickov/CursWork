@@ -34,7 +34,7 @@ glView::glView(QWidget *parent)
 {
     init_fdata();
     color = new QColor(255,255,255,255);
-    light_position = new QVector3D(15.0, 30.0, 15.0);
+    light_position = new QVector3D(0, 0, 0);
     connect(&mpTimer, SIGNAL(timeout()), this, SLOT(repaint()));
     mpTimer.start(33);
 }
@@ -128,47 +128,18 @@ void glView::paintGL()
             glVertex3f(x,y,z);
         }
 
-        for (int i=0; i< nlight_ind.size(); i++) {
-
-        }
-
-
     glEnd();
-
-//    glEnable(GL_DEPTH_TEST);
-
-//    const qreal retinaScale = devicePixelRatio();
-//    glViewport(0, 0, width() * retinaScale, height() * retinaScale);
-
-//    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
     m_program->bind();
 
     QMatrix4x4 proj_matrix;
-//    if(isPerspectiveOrOrtho){
-//        proj_matrix.perspective(60.0f, 4.0f / 3.0f, 0.1f, 3000.0f);
-//    }else{
-        proj_matrix.ortho(-60,60,-60,60,-60,60);
-//    }
 
+    proj_matrix.ortho(-60,60,-60,60,-60,60);
 
-//    QMatrix4x4 view_matrix_eye;
-//    view_matrix_eye.rotate(angle_x, 1, 0, 0);
-//    view_matrix_eye.rotate(angle_y, 0, 1, 0);
-//    view_matrix_eye.rotate(camera_rotation_z, 0, 0, 1);
-//    QVector3D vector(camera_translate_x,camera_translate_y,camera_translate_z);
-
-//    QVector3D eye = view_matrix_eye.map(vector);
-
-//    QVector3D up(0.0f,1.0f,0.0f);
-
-//    QVector3D center(0.0f,0.0f,0.0f);
 
     QMatrix4x4 view_matrix;
     view_matrix.rotate(angle_x, 1, 0, 0);
     view_matrix.rotate(angle_y, 0, 1, 0);
-
-//    view_matrix.lookAt(eye,center,up);
 
     QMatrix4x4 matrix;
     m_program->setUniformValue(p_matrixUniform, proj_matrix);
@@ -177,7 +148,7 @@ void glView::paintGL()
     glUniform4f(lightColorUniform,color->red()/255,color->green()/255,color->blue()/255,1.0);
 
     GLfloat vertices[3];
-    vertices[0] = light_position->x();
+    vertices[0] = (-1) * light_position->x();
     vertices[1] = light_position->y();
     vertices[2] = light_position->z();
 
@@ -226,7 +197,6 @@ void glView::init_fdata()
 
     ifile.close();
     init_vertex();
-    chk_vertex_vec();
 }
 
 void glView::init_vertex()
@@ -234,8 +204,7 @@ void glView::init_vertex()
     std::string line;
     for (int i=0; i<fdata.size(); i++) {
         line.push_back(fdata.at(i));
-        if(fdata.at(i)=='\n'){
-            //qDebug() << QString::fromStdString(line);
+        if(fdata.at(i)=='\n'){          
             parse_line(line);
             line.clear();
         }
@@ -276,26 +245,6 @@ void glView::parse_line(const std::string &line)
         curr_c.z =  list.at(3).toFloat();
         nlight_vec.push_back(curr_c);
     }
-}
-
-void glView::chk_vertex_vec()
-{
-//    for (int i=0; i<vertex_vec.size(); i++) {
-//        qDebug() << "X = " << float(vertex_vec.at(i).x) << ", Y = " << vertex_vec.at(i).y << ", Z = " << vertex_vec.at(i).z;
-//    }
-
-//    foreach (int num, vertex_ind){
-//        qDebug() << num;
-//    }
-
-//        foreach (int num, nlight_ind){
-//            qDebug() << num;
-//        }
-
-//        for (int i=0; i< nlight_vec.size(); i++) {
-//            qDebug() << "X = " << float(nlight_vec.at(i).x) << ", Y = " << nlight_vec.at(i).y << ", Z = " << nlight_vec.at(i).z;
-//        }
-
 }
 
 
