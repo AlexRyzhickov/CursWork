@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>1600</width>
-    <height>1024</height>
+    <height>600</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -19,8 +19,8 @@
      <rect>
       <x>0</x>
       <y>10</y>
-      <width>1599</width>
-      <height>902</height>
+      <width>991</width>
+      <height>531</height>
      </rect>
     </property>
     <layout class="QHBoxLayout" name="horizontalLayout_2">
@@ -703,7 +703,7 @@
         </size>
        </property>
        <property name="text">
-        <string>Перенос камеры по x: 0</string>
+        <string>Перенос камеры по x: 1</string>
        </property>
       </widget>
      </item>
