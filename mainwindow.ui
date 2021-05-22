@@ -35,12 +35,12 @@
           <widget class="QCheckBox" name="fillMode">
            <property name="maximumSize">
             <size>
-             <width>75</width>
+             <width>200</width>
              <height>16777215</height>
             </size>
            </property>
            <property name="text">
-            <string>Грани</string>
+            <string>Фоновый источник света</string>
            </property>
           </widget>
          </item>
@@ -146,13 +146,13 @@
       <widget class="glView" name="openGLWidget">
        <property name="minimumSize">
         <size>
-         <width>1600</width>
+         <width>1500</width>
          <height>1200</height>
         </size>
        </property>
        <property name="maximumSize">
         <size>
-         <width>1600</width>
+         <width>1500</width>
          <height>1200</height>
         </size>
        </property>

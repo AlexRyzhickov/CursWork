@@ -33,7 +33,7 @@ static const char *fragmentShaderSource = R"(
 glView::glView(QWidget *parent)
 {
     init_fdata();
-    color = new QColor(255,255,255,255);
+    color = new QColor(0,0,0,255);
     light_position = new QVector3D(0, 0, 0);
     connect(&mpTimer, SIGNAL(timeout()), this, SLOT(repaint()));
     mpTimer.start(33);
@@ -42,7 +42,7 @@ glView::glView(QWidget *parent)
 void glView::initializeGL()
 {
     initializeOpenGLFunctions();
-    glClearColor(127/255,118/255,121/255,1);
+    glClearColor(color->red(),color->green(),color->blue()/255,1);
     glEnable(GL_DEPTH_TEST);
     glEnable(GL_LIGHTING);
     glLightModelf(GL_LIGHT_MODEL_TWO_SIDE, GL_TRUE);
@@ -82,6 +82,7 @@ void glView::resizeGL(int w, int h)
 void glView::paintGL()
 {
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+    glClearColor(color->red()/255.0,color->green()/255.0,color->blue()/255.0,1.0);
     glMatrixMode(GL_MODELVIEW);
     glLoadIdentity();
 
@@ -145,7 +146,7 @@ void glView::paintGL()
     m_program->setUniformValue(p_matrixUniform, proj_matrix);
     m_program->setUniformValue(v_matrixUniform, view_matrix);
     m_program->setUniformValue(m_matrixUniform, matrix);
-    glUniform4f(lightColorUniform,color->red()/255,color->green()/255,color->blue()/255,1.0);
+    glUniform4f(lightColorUniform,255,255,255,1.0);
 
     GLfloat vertices[3];
     vertices[0] = (-1) * light_position->x();
