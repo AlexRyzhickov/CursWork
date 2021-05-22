@@ -953,16 +953,16 @@
        <item>
         <widget class="QDoubleSpinBox" name="light_pos_x">
          <property name="minimum">
-          <double>-1.000000000000000</double>
+          <double>-60.000000000000000</double>
          </property>
          <property name="maximum">
-          <double>1.000000000000000</double>
+          <double>60.000000000000000</double>
          </property>
          <property name="singleStep">
-          <double>0.100000000000000</double>
+          <double>1.000000000000000</double>
          </property>
          <property name="value">
-          <double>0.800000000000000</double>
+          <double>0.000000000000000</double>
          </property>
         </widget>
        </item>
@@ -980,16 +980,16 @@
        <item>
         <widget class="QDoubleSpinBox" name="light_pos_y">
          <property name="minimum">
-          <double>-1.000000000000000</double>
+          <double>-60.000000000000000</double>
          </property>
          <property name="maximum">
-          <double>1.000000000000000</double>
+          <double>60.000000000000000</double>
          </property>
          <property name="singleStep">
-          <double>0.100000000000000</double>
+          <double>1.000000000000000</double>
          </property>
          <property name="value">
-          <double>0.800000000000000</double>
+          <double>0.000000000000000</double>
          </property>
         </widget>
        </item>
@@ -1007,16 +1007,16 @@
        <item>
         <widget class="QDoubleSpinBox" name="light_pos_z">
          <property name="minimum">
-          <double>-1.000000000000000</double>
+          <double>-60.000000000000000</double>
          </property>
          <property name="maximum">
-          <double>1.000000000000000</double>
+          <double>60.000000000000000</double>
          </property>
          <property name="singleStep">
-          <double>0.100000000000000</double>
+          <double>1.000000000000000</double>
          </property>
          <property name="value">
-          <double>0.800000000000000</double>
+          <double>0.000000000000000</double>
          </property>
         </widget>
        </item>

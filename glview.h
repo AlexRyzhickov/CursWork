@@ -30,6 +30,7 @@ public:
   void paintGL()override;
   void mousePressEvent(QMouseEvent*);
   void mouseMoveEvent(QMouseEvent*);
+  void mouseReleaseEvent(QMouseEvent*);
 
 private:
   void init_fdata();

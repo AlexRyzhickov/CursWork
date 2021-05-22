@@ -37,10 +37,10 @@ MainWindow::MainWindow(QWidget *parent) :
   connect(ui->intensity,SIGNAL(valueChanged(double)),SLOT(changeSettings()));
   connect(ui->colorPicker,SIGNAL(clicked(bool)),SLOT(openColorPicker()));
 
-//  connect(ui->light_pos_x,SIGNAL(valueChanged(double)),SLOT(changeSettings()));
-//  connect(ui->light_pos_y,SIGNAL(valueChanged(double)),SLOT(changeSettings()));
-//  connect(ui->light_pos_z,SIGNAL(valueChanged(double)),SLOT(changeSettings()));
-//  connect(ui->comboBox,SIGNAL(activated(int)),SLOT(changeSettings()));
+  connect(ui->light_pos_x,SIGNAL(valueChanged(double)),SLOT(changeSettings()));
+  connect(ui->light_pos_y,SIGNAL(valueChanged(double)),SLOT(changeSettings()));
+  connect(ui->light_pos_z,SIGNAL(valueChanged(double)),SLOT(changeSettings()));
+  connect(ui->comboBox,SIGNAL(activated(int)),SLOT(changeSettings()));
 }
 
 MainWindow::~MainWindow()
@@ -97,9 +97,9 @@ void MainWindow::changeSettings()
     }
 
     ui->openGLWidget->intensity = ui->intensity->value();
-//    ui->openGLWidget->light_position->setX(ui->light_pos_x->value());
-//    ui->openGLWidget->light_position->setY(ui->light_pos_y->value());
-//    ui->openGLWidget->light_position->setZ(ui->light_pos_z->value());
+    ui->openGLWidget->light_position->setX(ui->light_pos_x->value());
+    ui->openGLWidget->light_position->setY(ui->light_pos_y->value());
+    ui->openGLWidget->light_position->setZ(ui->light_pos_z->value());
 
 //    switch (ui->comboBox->currentIndex()) {
 //        case 0:
